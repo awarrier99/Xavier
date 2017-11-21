@@ -1,0 +1,5 @@
+bool: var3 = True
+str: var2 = abc
+float: var4 = 3.14
+int: var1 = 5
+str: var5 = def
