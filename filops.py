@@ -4,7 +4,13 @@ basic = [int, float, bool, str]
 basic_str = ["int", "float", "bool", "str"]
 
 def clear(file):
-    open(file, "w").close()
+    x = input("Warning! You are about to clear all serialized variables! Are you sure you want to proceed? (y/n): ")
+    if x == 'y' or x == 'Y':
+        open(file, "w").close()
+        print("All serialized vars cleared")
+    else:
+        print("Serialized vars not cleared")
+    
 
 def save(file, varname, varval):
     with open(file, "a") as of:
@@ -49,12 +55,12 @@ def load_all(file):
     return dict_vars
                 
 
-##x = {"var1" : 5, "var2" : "abc", "var3" : True, "var4" : 3.14}
-##clear("test")
-##save_all("test", x)
-##save("test", "var5", "def")
-##with open("test", "r") as inf:
-##    print(inf.read())
-##
-##print(load("test", "var2"))
-##print(load_all("test"))
+x = {"var1" : 5, "var2" : "abc", "var3" : True, "var4" : 3.14}
+clear("test")
+save_all("test", x)
+save("test", "var5", "def")
+with open("test", "r") as inf:
+    print(inf.read())
+
+print(load("test", "var2"))
+print(load_all("test"))
