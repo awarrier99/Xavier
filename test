@@ -1,5 +1,0 @@
-str: var2 = abc
-float: var4 = 3.14
-bool: var3 = True
-int: var1 = 5
-str: var5 = def
