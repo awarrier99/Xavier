@@ -19,10 +19,12 @@ if [ -z "$GOPATH" ]; then
 fi
 
 if [ ! -d "$GOPATH" ]; then
+	echo "Go workspace does not exist at $GOPATH, creating a new one."
 	mkdir "$GOPATH/src/github.com/$USER/Xavier" && cd "$_"
 	git clone https://github.com/awarrier99/Xavier ./
 	rm -rf "$DIR"
 else
+	echo "Go workspace exists at $GOPATH. Adding files to pre-existing workspace."
 	cd "$GOPATH"
 	if [ ! -d "src" ]; then
 		mkdir src
@@ -53,9 +55,9 @@ else
 	else
 		mkdir "Xavier"
 	fi
-	cd Xavier
 
-	git clone https://github.com/awarrier99/Xavier ./
+	git clone https://github.com/awarrier99/Xavier Xavier/
+	cd Xavier
 	rm -rf "$DIR"
 fi
 
