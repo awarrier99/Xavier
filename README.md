@@ -3,20 +3,17 @@ This repository hosts code for Xavier, a personal assistant powered by Artificia
 
 ## Introduction
 The end goal of this project is to create an assistant which replicates functionality similar to Tony Stark's *Jarvis*. While working towards this goal, the team is working on smaller projects such as image labeling. This project uses the following languages and libraries:
-  1. [The Go Programming Language](https://golang.org)
-  2. [TensorFlow](https://www.tensorflow.org)
-  3. [Python](https://www.python.org)
+  * [The Go Programming Language](https://golang.org)
+  * [TensorFlow](https://www.tensorflow.org)
+  * [Python](https://www.python.org)
 
 ## Setup
 ### Linux
-Clone this repository into an empty directory *dirname* using
-`git clone https://awarrier99/Xavier dirname/`
+  1. Clone this repository into an empty directory *dirname* using `git clone https://awarrier99/Xavier dirname/`
 
-`cd` into the directory using
-`cd dirname`
+  2. `cd` into the directory using `cd dirname`
 
-Run the setup script, setup.sh, with your GitHub username as a command-line argument using
-`./setup.sh username`
+  3. Run the setup script, setup.sh, with your GitHub username as a command-line argument using `./setup.sh username`
 
 This script will initialize a new Go workspace for you if a previous one doesn't exist, located at $HOME/go (usually /home/user/go). For more information on Go programming conventions, refer to the [Go documentation](https://golang.org/doc). 
 
