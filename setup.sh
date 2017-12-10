@@ -7,7 +7,7 @@ if [[ $DIR == *"/go/src/"* ]]; then
 	exit
 fi
 
-if [ -z %1 ]; then
+if [ -z "$1" ]; then
 	echo "Error! No GitHub username was provided"
 	exit
 else
