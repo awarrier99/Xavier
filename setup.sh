@@ -24,17 +24,17 @@ if [ ! -d "$GOPATH" ]; then
 	rm -rf "$DIR"
 else
 	cd "$GOPATH"
-	if [ ! -d "/src" ]; then
+	if [ ! -d "src" ]; then
 		mkdir src
 	fi
 	cd src
 
-	if [ ! -d "/github.com" ]; then
+	if [ ! -d "github.com" ]; then
 		mkdir github.com
 	fi
 	cd github.com
 
-	if [ ! -d "/$GITUSER" ]; then
+	if [ ! -d "$GITUSER" ]; then
 		mkdir $GITUSER
 	fi
 	cd $GITUSER
