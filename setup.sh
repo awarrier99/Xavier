@@ -61,4 +61,4 @@ else
 fi
 
 echo "Workspace set up successfully!"
-cd "$GOPATH/src/github.com/$GITUSER/Xavier"
+echo "Repository located in $GOPATH/src/github.com/$GITUSER/Xavier"
