@@ -57,8 +57,8 @@ else
 	fi
 
 	git clone https://github.com/awarrier99/Xavier Xavier/
-	cd Xavier
 	rm -rf "$DIR"
 fi
 
 echo "Workspace set up successfully!"
+cd "$GOPATH/src/github.com/$GITUSER/Xavier"
