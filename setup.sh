@@ -14,7 +14,7 @@ else
 	GITUSER=$1
 fi 
 
-if [ -z "$GOPATH"]; then
+if [ -z "$GOPATH" ]; then
 	export $GOPATH=$HOME/go
 fi
 
@@ -58,3 +58,5 @@ else
 	git clone https://github.com/awarrier99/Xavier ./
 	rm -rf "$DIR"
 fi
+
+echo "Workspace set up successfully!"
