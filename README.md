@@ -9,7 +9,7 @@ The end goal of this project is to create an assistant which replicates function
 
 ## Setup
 ### Linux
-If you already have a pre-existing Go workspace directory, **make sure that the variable $GOPATH points to it** before following these steps
+If you already have a pre-existing Go workspace directory, **make sure that the variable $GOPATH points to it** before following these steps. This can be tested using `echo $GOPATH`
   1. Clone this repository into an empty directory *dirname* using `git clone https://awarrier99/Xavier dirname/`
 
   2. `cd` into the directory using `cd dirname`
