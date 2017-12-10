@@ -11,13 +11,14 @@ The end goal of this project is to create an assistant which replicates function
 ### Linux
 Clone this repository into an empty directory *dirname* using
 `git clone https://awarrier99/Xavier dirname/`
+
 `cd` into the directory using
 `cd dirname`
 
 Run the setup script, setup.sh, with your GitHub username as a command-line argument using
 `./setup.sh username`
 
-This script will initialize a new Go workspace for you if a previous one doesn't exist, located at $HOME/Go (usually /home/user/go). For more information on Go programming conventions, refer to the [Go documentation](https://golang.org/doc). 
+This script will initialize a new Go workspace for you if a previous one doesn't exist, located at $HOME/go (usually /home/user/go). For more information on Go programming conventions, refer to the [Go documentation](https://golang.org/doc). 
 
 The setup script will then create a conventional directory structure and copy the repository to $HOME/go/src/github.com/username/Xavier. After running this script, **delete _dirname_ and its contents**. The project will not be functional if the directory is located elsewhere, due to the conventions of Go programming.
 
