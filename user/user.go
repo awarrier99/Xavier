@@ -16,20 +16,21 @@ func (u *User) String() string {
 }
 
 func (u *User) GetFirstName() string {
-    return u->first_name
+    return u.first_name
 }
 
 func (u *User) GetLastName() string {
-    return u->last_name;
+    return u.last_name
 }
+
 func (u *User) GetNickName() string {
-    return u->nick_name;
+    return u.nick_name
 }
 
 func (u *User) GetDOB() string {
-    return u->DOB;
+    return u.dob
 }
 
 func (u *User) GetAge() int {
-    return u->age;
+    return u.age
 }
