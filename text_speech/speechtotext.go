@@ -11,7 +11,7 @@ import (
     speechpb "google.golang.org/genproto/googleapis/cloud/speech/v1"
 )
 
-func TTS() {
+func STT() {
     ctx := context.Background()
 
     client, err := speech.NewClient(ctx)
