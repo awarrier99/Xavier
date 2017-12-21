@@ -19,7 +19,7 @@ func TTS() {
         log.Fatalf("Failed to create client: %v", err)
     }
 
-    filename := "2017-12-21-14:18:25.wav"
+    filename := "../2017-12-21-14:18:25.wav"
 
     data, err := ioutil.ReadFile(filename)
     if err != nil {
