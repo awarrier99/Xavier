@@ -1,19 +1,16 @@
 package user
 
-import (
-    "fmt"
-    "time"
-)
+import "fmt"
 
-type user struct {
-    first_name string
-    last_name string
-    nick_name string
-    age int
-    DOB Time
-    PIN int
+type User struct {
+    first_name, last_name, nick_name, DOB string
+    age, PIN int
 }
 
-func NewUser(first_name, last_name, nick_name string, age int, DOB Time, PIN int) *user {
-    return &user{first_name, last_name, nick_name, age, DOB, PIN}
+func NewUser(first_name, last_name, nick_name, DOB string, age, PIN int) *User {
+    return &User{first_name, last_name, nick_name, DOB, age, PIN}
+}
+
+func (u User) String() string {
+    return fmt.Sprintf("%#v", u)
 }
