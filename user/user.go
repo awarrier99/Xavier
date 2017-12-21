@@ -10,4 +10,5 @@ type User struct {
     nick_name string
     age int
     DOB Time
+    PIN int
 }
