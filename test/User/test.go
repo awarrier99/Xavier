@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-    u := user.NewUser("Ashvin", "Warrier", "Ash", "5/18/1999", 18, 9277)
+    u := user.NewUser("Ashvin", "Warrier", "Ash", "5/18/1999", 18)
     fmt.Println(u)
 
     u3 := new(user.User)
