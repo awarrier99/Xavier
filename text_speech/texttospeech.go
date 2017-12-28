@@ -7,15 +7,15 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"os/exec"
+	_ "os/exec"
 	"os/user"
 	"strings"
 	"unicode/utf8"
 )
 
-var langs = []string{"af", "ar", "ca", "cs", "cy", "da", "de", "el", "en", 
-	"es", "fi", "fr", "hi", "hr", "ht", "hu", "hy", "id", "is", "it", 
-	"ja", "ko", "la", "lv", "mk", "nl", "no", "pl", "pt", "ro", "ru", 
+var langs = []string{"af", "ar", "ca", "cs", "cy", "da", "de", "el", "en",
+	"es", "fi", "fr", "hi", "hr", "ht", "hu", "hy", "id", "is", "it",
+	"ja", "ko", "la", "lv", "mk", "nl", "no", "pl", "pt", "ro", "ru",
 	"sk", "sq", "sr", "sv", "sv", "sw", "ta", "tr", "vi", "zh"}
 
 func Say(s string, args ...string) error {
@@ -40,7 +40,7 @@ func Say(s string, args ...string) error {
 		log.Print(err)
 		return err
 	}
-	
+
 	err = speak(sentences, lang)
 	if err != nil {
 		log.Print(err)
@@ -81,7 +81,7 @@ func splitSentences(s string) ([]string, error) {
 }
 
 func getAudio(s, lang string) (io.ReadCloser, error) {
-	resp, err := http.Get("http://translate.google.com/translate_tts" + 
+	resp, err := http.Get("http://translate.google.com/translate_tts" +
 		"?ie=UTF-8&tl=" + lang + "&q=" + url.QueryEscape(s))
 	if err != nil {
 		return nil, err
@@ -91,15 +91,35 @@ func getAudio(s, lang string) (io.ReadCloser, error) {
 
 }
 
-func play(audio io.Reader) error {
-	mplayer := exec.Command("mplayer", "-cache", "8092", "-")
-	mplayer.Stdin = audio 
-	return mplayer.Run()
+func playSound(audio io.Reader, sentences []string, lang string) error {
+    /*dir, err := os.Open(".")
+    if err != nil {
+        return err
+    }
+    defer dir.Close()
+    f, err := os.Create("temp.wav")
+    if err != nil {
+        return err
+    }
+
+    _, err = io.Copy(f, audio)
+    play("temp.wav")*/
+    for _, s := range sentences {
+        filename, err := getFromCache(s, lang)
+        if err != nil {
+            return err
+        }
+        play(filename)
+    }
+
+    return nil
 }
 
-func getFromCache(s, lang string) (io.ReadCloser, error) {
-	cached, err := os.Open(getCacheDir() + "/" + lang + "/" + s + ".mp3")
-	return cached, err
+func getFromCache(s, lang string) (string /*io.ReadCloser*/, error) {
+    filename := getCacheDir() + "/" + lang + "/" + s + ".mp3"
+	/*cached, err := os.Open(filename)
+	return cached, err*/
+    return filename, nil
 }
 
 func cacheAudio(stream io.Reader, s, lang string) (io.ReadCloser, error) {
@@ -109,7 +129,7 @@ func cacheAudio(stream io.Reader, s, lang string) (io.ReadCloser, error) {
 		_ = os.MkdirAll(langCacheDir, 0700)
 	}
 	defer dir.Close()
-	
+
 	filename := s + "mp3"
 
 	f, err := os.Open(langCacheDir + "/" + filename)
@@ -122,12 +142,12 @@ func cacheAudio(stream io.Reader, s, lang string) (io.ReadCloser, error) {
 		_, err = io.Copy(f, stream)
 		return f, err
 	}
-	
+
 	return f, err
 }
 
 func speak(sentences []string, lang string) error {
-	var streams []io.ReadCloser 
+	var streams []io.ReadCloser
 	for _, s := range sentences {
 		log.Printf("From cache %s/%s", lang, s)
 		audio, err := getAudio(s, lang)
@@ -139,19 +159,19 @@ func speak(sentences []string, lang string) error {
 				audio, _ = cacheAudio(stream, s, lang)
 			}
 		}
-		
+
 		defer audio.Close()
 		streams = append(streams, audio)
 	}
 
 	for _, audio := range streams {
-		err := play(audio)
+		err := playSound(audio, sentences, lang)
 		if err != nil {
-			return err 
+			return err
 		}
 	}
-	
-	return nil 
+
+	return nil
 }
 
 func getCacheDir() string {
@@ -169,6 +189,3 @@ func getCacheDir() string {
 	}
 	return dir.Name()
 }
-	
-
-
