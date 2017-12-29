@@ -1,11 +1,11 @@
 package text_speech
 
 import (
-	"errors"
+	"encoding/base64"
 	"io"
 	"io/ioutil"
 	"os"
-	"strings"
+	"os/exec"
 
 	"github.com/awarrier99/Xavier/errcheck"
 
@@ -20,29 +20,26 @@ const (
 	sKeyStr = "AWSSecretKey="
 )
 
-func getKeys(filename string) (string, string, error) {
-	f, err := ioutil.ReadFile(filename)
-	errcheck.Err(err)
+func cache(s string) {
+	//TODO
+}
 
-	contents := string(f)
+func getFromCache(s string) (string, error) {
+	//TODO
+	return "", nil
+}
 
-	aPos := strings.Index(contents, aKeyStr) + len([]rune(aKeyStr))
-	aPosEnd := strings.Index(contents, "\n")
-	sPos := strings.Index(contents, sKeyStr) + len([]rune(sKeyStr))
-
-	if (aPos == -1) || (sPos == -1) {
-		return "", "", errors.New("Keys not found in file")
-	}
-
-	aKey := contents[aPos:aPosEnd]
-	sKey := contents[sPos:]
-
-	return aKey, sKey, nil
+func split(r rune) bool {
+	return r == '.' || r == '?' || r == '!'
 }
 
 func Say(s string) {
-	// aKey, sKey, err := getKeys("/Users/Ashvin/go/src/github.com/awarrier99/Xavier/keys/rootkey.csv")
-	// errcheck.Err(err)
+	// sentences := strings.FieldsFunc(s, split)
+	//
+	// for i := 0; i < len(sentences); i++ {
+	// 	sentences[i] = strings.TrimSpace(sentences[i])
+	// 	fmt.Println(sentences[i])
+	// }
 
 	svc := polly.New(session.New(), &aws.Config{
 		Credentials: credentials.NewEnvCredentials(),
@@ -65,8 +62,15 @@ func Say(s string) {
 	_, err = io.Copy(f, stream)
 	errcheck.Err(err)
 
+	bstream, err := ioutil.ReadFile(os.Getenv("XAVIER") + "/temp/temp.mp3")
+	errcheck.Err(err)
+	enc_stream := base64.StdEncoding.EncodeToString(bstream)
+
 	f, err = os.Open(os.Getenv("XAVIER") + "/temp/temp.mp3")
 	defer f.Close()
 	errcheck.Err(err)
 
+	cmd := exec.Command("python", os.Getenv("XAVIER")+"/py/play.py", enc_stream)
+	err = cmd.Start()
+	errcheck.Err(err)
 }
