@@ -4,10 +4,10 @@ import (
 	"errors"
 	"io"
 	"io/ioutil"
+	"os"
 	"strings"
 
 	"github.com/awarrier99/Xavier/errcheck"
-	_ "github.com/faiface/beep"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
@@ -40,7 +40,7 @@ func getKeys(filename string) (string, string, error) {
 	return aKey, sKey, nil
 }
 
-func Say(s string) io.ReadCloser {
+func Say(s string) {
 	// aKey, sKey, err := getKeys("/Users/Ashvin/go/src/github.com/awarrier99/Xavier/keys/rootkey.csv")
 	// errcheck.Err(err)
 
@@ -59,5 +59,14 @@ func Say(s string) io.ReadCloser {
 	result, err := svc.SynthesizeSpeech(input)
 	errcheck.Err(err)
 	stream := result.AudioStream
-	return stream
+
+	f, err := os.Create(os.Getenv("XAVIER") + "/temp/temp.mp3")
+	errcheck.Err(err)
+	_, err = io.Copy(f, stream)
+	errcheck.Err(err)
+
+	f, err = os.Open(os.Getenv("XAVIER") + "/temp/temp.mp3")
+	defer f.Close()
+	errcheck.Err(err)
+
 }
