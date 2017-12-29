@@ -18,9 +18,9 @@ var langs = []string{"af", "ar", "ca", "cs", "cy", "da", "de", "el", "en",
 	"ja", "ko", "la", "lv", "mk", "nl", "no", "pl", "pt", "ro", "ru",
 	"sk", "sq", "sr", "sv", "sv", "sw", "ta", "tr", "vi", "zh"}
 
-func Say(s string, args ...string) error {
+func Say_t(s string, args ...string) error {
 	lang := "en"
-	if len(args) > 0{
+	if len(args) > 0 {
 		lang = args[0]
 	}
 
@@ -73,7 +73,7 @@ func splitSentences(s string) ([]string, error) {
 				}
 			}
 			result = append(result, tokens...)
-		}else {
+		} else {
 			result = append(result, strings.TrimSpace(sentence))
 		}
 	}
@@ -92,34 +92,34 @@ func getAudio(s, lang string) (io.ReadCloser, error) {
 }
 
 func playSound(audio io.Reader, sentences []string, lang string) error {
-    /*dir, err := os.Open(".")
-    if err != nil {
-        return err
-    }
-    defer dir.Close()
-    f, err := os.Create("temp.wav")
-    if err != nil {
-        return err
-    }
+	/*dir, err := os.Open(".")
+	  if err != nil {
+	      return err
+	  }
+	  defer dir.Close()
+	  f, err := os.Create("temp.wav")
+	  if err != nil {
+	      return err
+	  }
 
-    _, err = io.Copy(f, audio)
-    play("temp.wav")*/
-    for _, s := range sentences {
-        filename, err := getFromCache(s, lang)
-        if err != nil {
-            return err
-        }
-        play(filename)
-    }
+	  _, err = io.Copy(f, audio)
+	  play("temp.wav")*/
+	// for _, s := range sentences {
+	// 	filename, err := getFromCache(s, lang)
+	// 	if err != nil {
+	// 		return err
+	// 	}
+	// 	play(filename)
+	// }
 
-    return nil
+	return nil
 }
 
 func getFromCache(s, lang string) (string /*io.ReadCloser*/, error) {
-    filename := getCacheDir() + "/" + lang + "/" + s + ".mp3"
+	filename := getCacheDir() + "/" + lang + "/" + s + ".mp3"
 	/*cached, err := os.Open(filename)
 	return cached, err*/
-    return filename, nil
+	return filename, nil
 }
 
 func cacheAudio(stream io.Reader, s, lang string) (io.ReadCloser, error) {
@@ -150,7 +150,7 @@ func speak(sentences []string, lang string) error {
 	var streams []io.ReadCloser
 	for _, s := range sentences {
 		log.Printf("From cache %s/%s", lang, s)
-		audio, err := getAudio(s, lang)
+		audio, err := getAudio(s, lang) //getFromCache...
 		if err != nil {
 			log.Printf("Cache for %s/%s not found. Trying to get audio from Google", lang, s)
 			stream, err := getAudio(s, lang)

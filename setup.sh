@@ -1,64 +1,19 @@
-#!/bin/bash
-#Setup script for Xavier
+#!/usr/bin/env bash
+X="export XAVIER=\$GOPATH/src/github.com/awarrier99/Xavier"
+G="export GOOGLE_APPLICATION_CREDENTIALS=\$XAVIER/keys/Xavier-be41d74a5f4f.json"
+A="export AWS_ACCESS_KEY_ID=\"AKIAIVX5SSNXQH5MPDKA\""
+S="export AWS_SECRET_KEY=\"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\""
 
-DIR="$(pwd)"
-if [[ $DIR == *"/go/src/"* ]]; then
-	echo "Error! Cannot execute setup script from this location! Exiting."
-	exit
-fi
+LINES=("$X" "$G" "$A" "$S")
 
-if [ -z "$1" ]; then
-	echo "Error! No GitHub username was provided"
-	exit
-else
-	GITUSER=$1
-fi 
 
-if [ -z "$GOPATH" ]; then
-	export $GOPATH=$HOME/go
-fi
-
-if [ ! -d "$GOPATH" ]; then
-	echo "Go workspace does not exist at $GOPATH, creating a new one."
-	mkdir "$GOPATH/src/github.com/$USER/Xavier" && cd "$_"
-	git clone https://github.com/awarrier99/Xavier ./
-	rm -rf "$DIR"
-else
-	echo "Go workspace exists at $GOPATH. Adding files to pre-existing workspace."
-	cd "$GOPATH"
-	if [ ! -d "src" ]; then
-		mkdir src
-	fi
-	cd src
-
-	if [ ! -d "github.com" ]; then
-		mkdir github.com
-	fi
-	cd github.com
-
-	if [ ! -d "$GITUSER" ]; then
-		mkdir $GITUSER
-	fi
-	cd $GITUSER
-
-	if [ -d "Xavier" ]; then
-		echo "Directory Xavier already exists!"
-		echo "Do you want to overwrite its contents?"
-		read res
-		if [ $res == 'y' ] || [ $res == 'Y' ]; then
-			rm -rf "Xavier"
-			mkdir "Xavier"
-		else
-			echo "Exiting setup script."
-			exit
-		fi
+for ((i = 0; i < ${#LINES[@]}; i++)); do
+	TEMP="${LINES[$i]}"
+	if grep -Fxq "$TEMP" ~/.bash_profile; then
+		:
 	else
-		mkdir "Xavier"
+		echo "$TEMP" >> ~/.bash_profile
 	fi
+done
 
-	git clone https://github.com/awarrier99/Xavier Xavier/
-	rm -rf "$DIR"
-fi
-
-echo "Workspace set up successfully!"
-echo "Repository located in $GOPATH/src/github.com/$GITUSER/Xavier"
+source ~/.bash_profile
