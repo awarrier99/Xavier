@@ -5,6 +5,6 @@ import (
 )
 
 func main() {
-	//ts.Recognize_File(os.Getenv("XAVIER") + "/test_record.wav")
+	//ts.Recognize_File(os.Getenv("XAVIER") + "/audio/temp/temp_in.wav")
 	ts.StreamingRecognize_Mic()
 }
