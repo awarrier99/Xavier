@@ -37,14 +37,9 @@ func StreamingRecognize_Mic() {
 	errcheck.Err(err)
 
 	go func() {
-		fmt.Println("Listening for audio...")
 		buf := make([]byte, 64)
 		for {
-			fmt.Println("Hello")
 			n, err := os.Stdin.Read(buf)
-			fmt.Println("Hello2")
-			fmt.Println(n)
-			fmt.Println(buf)
 			if err == io.EOF {
 				err = stream.CloseSend()
 				errcheck.Err(err)
