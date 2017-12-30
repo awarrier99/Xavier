@@ -2,7 +2,9 @@ package text_speech
 
 import (
 	"fmt"
+	"io"
 	"io/ioutil"
+	"os"
 
 	"golang.org/x/net/context"
 
@@ -12,7 +14,70 @@ import (
 	"github.com/awarrier99/Xavier/errcheck"
 )
 
-func Recognize(filename string) {
+func StreamingRecognize_Mic() {
+	ctx := context.Background()
+
+	client, err := speech.NewClient(ctx)
+	errcheck.Err(err)
+
+	stream, err := client.StreamingRecognize(ctx)
+	errcheck.Err(err)
+
+	err = stream.Send(&speechpb.StreamingRecognizeRequest{
+		StreamingRequest: &speechpb.StreamingRecognizeRequest_StreamingConfig{
+			StreamingConfig: &speechpb.StreamingRecognitionConfig{
+				Config: &speechpb.RecognitionConfig{
+					Encoding:        speechpb.RecognitionConfig_LINEAR16,
+					SampleRateHertz: 16000,
+					LanguageCode:    "en-US",
+				},
+			},
+		},
+	})
+	errcheck.Err(err)
+
+	go func() {
+		fmt.Println("Listening for audio...")
+		buf := make([]byte, 64)
+		for {
+			fmt.Println("Hello")
+			n, err := os.Stdin.Read(buf)
+			fmt.Println("Hello2")
+			fmt.Println(n)
+			fmt.Println(buf)
+			if err == io.EOF {
+				err = stream.CloseSend()
+				errcheck.Err(err)
+				return
+			}
+
+			if err != nil {
+				continue
+			}
+
+			err = stream.Send(&speechpb.StreamingRecognizeRequest{
+				StreamingRequest: &speechpb.StreamingRecognizeRequest_AudioContent{
+					AudioContent: buf[:n],
+				},
+			})
+			errcheck.Err(err)
+		}
+	}()
+
+	for {
+		resp, err := stream.Recv()
+		if err == io.EOF {
+			break
+		}
+		errcheck.Err(err)
+
+		for _, result := range resp.Results {
+			fmt.Printf("Result: %+v\n", result)
+		}
+	}
+}
+
+func Recognize_File(filename string) {
 	ctx := context.Background()
 
 	client, err := speech.NewClient(ctx)
