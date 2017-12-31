@@ -56,10 +56,10 @@ func Say(s string) {
 	errcheck.Err(err)
 	stream := result.AudioStream
 
-	f, err := os.Create(os.Getenv("XAVIER") + "/temp/temp.mp3")
+	f, err := os.Create(os.Getenv("XAVIER") + "/audio/temp/temp_out.mp3")
 	errcheck.Err(err)
 	_, err = io.Copy(f, stream)
 	errcheck.Err(err)
 
-	play(os.Getenv("XAVIER") + "/temp/temp.mp3")
+	play(os.Getenv("XAVIER") + "/audio/temp/temp_out.mp3")
 }
