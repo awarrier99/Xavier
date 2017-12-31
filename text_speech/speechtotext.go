@@ -37,7 +37,7 @@ func StreamingRecognize_Mic() {
 	errcheck.Err(err)
 
 	// getAudioFromMic()
-	// f, err := os.Open(os.Getenv("XAVIER") + "/temp/temp_in.aiff")
+	// f, err := os.Open(os.Getenv("XAVIER") + "/audio/temp/temp_in.wav")
 	// defer f.Close()
 	// errcheck.Err(err)
 
@@ -45,6 +45,7 @@ func StreamingRecognize_Mic() {
 		buf := make([]byte, 1024)
 		for {
 			n, err := os.Stdin.Read(buf)
+			fmt.Println(buf)
 			if err == io.EOF {
 				err = stream.CloseSend()
 				errcheck.Err(err)
