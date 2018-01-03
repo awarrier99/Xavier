@@ -12,11 +12,6 @@ import (
 	"github.com/aws/aws-sdk-go/service/polly"
 )
 
-const (
-	aKeyStr = "AWSAccessKeyId="
-	sKeyStr = "AWSSecretKey="
-)
-
 func cache(s string) {
 	//TODO
 }

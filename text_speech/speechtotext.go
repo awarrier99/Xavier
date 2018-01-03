@@ -28,7 +28,7 @@ func StreamingRecognize_Mic() {
 			StreamingConfig: &speechpb.StreamingRecognitionConfig{
 				Config: &speechpb.RecognitionConfig{
 					Encoding:        speechpb.RecognitionConfig_LINEAR16,
-					SampleRateHertz: 44100,
+					SampleRateHertz: 16000,
 					LanguageCode:    "en-US",
 				},
 			},
@@ -37,15 +37,14 @@ func StreamingRecognize_Mic() {
 	errcheck.Err(err)
 
 	// getAudioFromMic()
-	// f, err := os.Open(os.Getenv("XAVIER") + "/audio/temp/temp_in.wav")
-	// defer f.Close()
-	// errcheck.Err(err)
+	f, err := os.Open(os.Getenv("XAVIER") + "/audio/test/12-28-17 11_44 PM.wav")
+	defer f.Close()
+	errcheck.Err(err)
 
 	go func() {
 		buf := make([]byte, 1024)
 		for {
-			n, err := os.Stdin.Read(buf)
-			fmt.Println(buf)
+			n, err := f.Read(buf)
 			if err == io.EOF {
 				err = stream.CloseSend()
 				errcheck.Err(err)
