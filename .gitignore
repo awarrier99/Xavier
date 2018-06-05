@@ -1,4 +1,2 @@
 # GCP service account keys #
-keys/
 .DS_STORE
-setup.sh
